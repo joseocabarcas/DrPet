@@ -1,0 +1,17 @@
+
+{% extends "master.html" %}
+
+{% load static %}
+
+{% block maincontent %}
+
+{% for agenda in agendas %}
+	{{agenda.hora_ini}}
+	{{agenda.hora_fin}}
+	{{agenda.frecuencia}}
+	{{agenda.dia}}
+{% endfor %}
+
+
+
+{% endblock maincontent %}

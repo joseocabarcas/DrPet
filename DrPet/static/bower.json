@@ -1,0 +1,16 @@
+{
+  "name": "DrPet",
+  "version": "0.0.0",
+  "authors": [
+    "José Cabarcas <josecabarcas94@gmail.com>"
+  ],
+  "description": "Proyecto para sistemas de Informacion",
+  "moduleType": [
+    "globals"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "bootstrap": "~3.3.5",
+    "bootstrap-material-design": "~0.3.0"
+  }
+}

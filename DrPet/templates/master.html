@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+{% load permission_tags %}
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>DrPet</title>
+
+    <!-- CDN Bootstrap -->
+    <link rel="stylesheet" href="{% static 'bower_components/bootstrap/dist/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'bower_components/bootstrap-material-design/dist/css/material.min.css' %}">
+    <link rel="stylesheet" href="{% static 'bower_components/bootstrap-material-design/dist/css/ripples.min.css' %}">
+    <link rel="stylesheet" href="{% static 'bower_components/bootstrap-material-design/dist/css/roboto.min.css' %}">
+    
+    
+</head>
+<body>
+
+    <div class="bs-component">
+    	<div class="navbar navbar-default">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{% url '/' %}">DrPet</a>
+            </div>
+            <div class="navbar-collapse collapse navbar-responsive-collapse">
+                {% if  user.is_anonymous %}
+                <ul class="nav navbar-nav">
+                    <li><a href="{% url 'register/medico' %}">Eres Medico? Registrate</a></li>
+                    <li><a href="{% url 'register/paciente' %}">Eres Paciente? Registrate</a></li>
+                </ul>
+                {% endif %}
+                {% if  user.is_authenticated %}
+
+                {% if user|can:'medicos' %}
+                <ul class="nav navbar-nav">
+                    
+                    <li class="dropdown">
+                        <a href="bootstrap-elements.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Agenda <b class="caret"></b><div class="ripple-wrapper"></div></a>
+                        <ul class="dropdown-menu">
+                           <li><a href="{% url 'agenda' %}">Registrar</a></li>
+                           <li><a href="{% url 'agenda/listado' %}">Agendas</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                {% endif %}
+
+                {% if user|can:'pacientes' %}
+                <ul class="nav navbar-nav">
+                    <li><a href="{% url 'cita' %}">Citas</a></li>
+                </ul>
+                {% endif %}
+                
+                <ul class="nav navbar-nav navbar-right">
+                
+                    <li class="dropdown">
+                        <a href="bootstrap-elements.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">{{user.username|capfirst}} <b class="caret"></b><div class="ripple-wrapper"></div></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{% url 'logout' %}">LogOut</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                {% endif %}
+            </div>
+        </div>
+        <div id="source-button" class="btn btn-primary btn-xs" style="display: none;">&lt; &gt;</div>
+	</div>
+
+    
+    <div class="container">
+        {% block maincontent %}
+        {% endblock maincontent %}
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="{% static 'nodejs/node_modules/angular/angular.min.js' %}"></script>
+    <script src="{% static 'nodejs/node_modules/angular-bootstrap/dist/ui-bootstrap-tpls.min.js' %}"></script>
+    <script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'bower_components/bootstrap-material-design/dist/js/material.min.js' %}"></script>
+    <script src="{% static 'bower_components/bootstrap-material-design/dist/js/ripples.min.js' %}"></script>
+
+    <script type="text/javascript">
+    $(document).on('ready',function(){
+    	$.material.init();
+    });
+    </script>
+</body>
+</html>

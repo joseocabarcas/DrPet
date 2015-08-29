@@ -1,0 +1,20 @@
+{% extends "master.html" %}
+
+{% load static %}
+
+{% block maincontent %}
+
+<form action="" method="post" accept-charset="utf-8">
+{% csrf_token %}
+{{agenda_form}}
+<select name="dia" >
+{% for dia in dias %}
+	<option value="{{dia.id}}">{{dia.dia}}</option>
+{% endfor %}
+</select>
+
+<button type="submit">Guardar</button>
+</form>
+
+
+{% endblock maincontent %}

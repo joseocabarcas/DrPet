@@ -1,0 +1,25 @@
+{% extends "master.html" %}
+
+{% load static %}
+
+{% block maincontent %}
+
+<form action="" method="POST" accept-charset="utf-8">
+	{% csrf_token %}
+	
+	{{ usuario_register }}
+
+	{% if request.path == '/register/medico' %}
+		{{medico_register}}
+		
+	{% elif request.path == '/register/paciente' %}    
+	    {{paciente_register}}
+
+	{% endif %}
+
+	<button type="submit">Guardar</button>
+
+</form>
+
+
+{% endblock maincontent %}
