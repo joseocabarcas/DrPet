@@ -4,12 +4,12 @@ from .base import *
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.oracle',
-        'NAME': 'xe',
-        'USER': 'system',
-        'PASSWORD': 'oracle',
-        'HOST': 'localhost',
-        'PORT': '1521',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'drpet',
+        'USER': 'drpet',
+        'PASSWORD': 'drpet',
+        'HOST': '127.0.0.1',
+        'PORT': '',
     }
 }
 

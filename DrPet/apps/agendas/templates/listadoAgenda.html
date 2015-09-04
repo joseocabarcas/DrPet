@@ -5,13 +5,39 @@
 
 {% block maincontent %}
 
+
+
+<div class="row">
+{% if agendas%}
+    
+
+
 {% for agenda in agendas %}
-	{{agenda.hora_ini}}
-	{{agenda.hora_fin}}
-	{{agenda.frecuencia}}
-	{{agenda.dia}}
+    <div  class="col s3 m3">
+        <div class="card teal lighten-1">
+            <div class="card-content white-text">
+              <span class="card-title">{{agenda.dia}}</span><br>
+              <p><label class="black-text" style="font-size:14px;">Hora de Inicio:  </label> {{agenda.hora_ini}}</p>
+              <p><label class="black-text" style="font-size:14px;">Hora de Fin:  </label>{{agenda.hora_fin}}</p>
+              <p><label class="black-text" style="font-size:14px;">Frecuencia:  </label>{{agenda.frecuencia}}</p>
+            </div>
+            <div class="card-action">
+              <a href="{% url 'agenda/editar/' agenda.id %}"><i class="material-icons">edit</i></a>
+              <a href="{% url 'agenda/eliminar/' agenda.id %}" ><i class="material-icons">delete</i></a>
+            </div>
+        </div>
+    </div>
 {% endfor %}
 
 
+{% else %}
+
+<h4>No hay Agendas Registradas</h4>
+
+{% endif %}
+
+
+
+</div> 
 
 {% endblock maincontent %}

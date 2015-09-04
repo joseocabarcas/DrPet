@@ -62,4 +62,7 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
 	def get_short_name(self):
 		return self.username
 
+	def get_name_complete():
+		return self.nombre1 +' '+self.nombre2 +' '+self.apellido1 +' '+self.apellido2
+
 

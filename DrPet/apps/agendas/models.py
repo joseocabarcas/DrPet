@@ -1,5 +1,7 @@
 from django.db import models
 from apps.medicos.models import Medico
+from django.db import connection
+from .functions import dictfetchall
 
 # Create your models here.
 class Dia(models.Model):
@@ -24,6 +26,18 @@ class Agenda(models.Model):
 
 	def __unicode__(self):
 		return "%s" % self.dia
+
+
+class Procedimientos():
+
+	def listadoAgendas(self,id_medico):
+		cursor = connection.cursor()
+		cursor.execute("select * from listadoAgendas(%s) as t (id integer,hora_ini time,hora_fin time,frecuencia integer,dia character)", [id_medico])
+		agendas=dictfetchall(cursor)
+		cursor.close()
+		print agendas
+		return agendas
+		
 
 
 
