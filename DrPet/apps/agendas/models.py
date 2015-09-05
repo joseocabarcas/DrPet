@@ -32,7 +32,8 @@ class Procedimientos():
 
 	def listadoAgendas(self,id_medico):
 		cursor = connection.cursor()
-		cursor.execute("select * from listadoAgendas(%s) as t (id integer,hora_ini time,hora_fin time,frecuencia integer,dia character)", [id_medico])
+		#cursor.execute("select * from listadoAgendas(%s) as t (id integer,hora_ini time,hora_fin time,frecuencia integer,dia character)", [id_medico])
+		cursor.execute("select * from listadoAgendas(%s) as t (id integer,hora_ini time,hora_fin time,frecuencia integer,dia varchar(50));", [id_medico])
 		agendas=dictfetchall(cursor)
 		cursor.close()
 		print agendas

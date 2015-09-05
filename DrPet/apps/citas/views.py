@@ -25,8 +25,18 @@ def fecha_agenda_disp(request):
 		#print request.META['CONTENT_TYPE']
 		#print fecha
 		fecha= request.POST['fecha']
-		response= JsonResponse({'fecha':fecha})
-		return HttpResponse(response.content)
+		medico_id= request.POST['medico_id']
+		print fecha
+		print medico_id
+		procedimientos= Procedimientos()
+		# try:
+		# 	agenda=procedimientos.Medico_Agenda(medico_id,fecha)
+		# except Exception, e:
+		# 	agenda={}
+		# 	print e
+		agenda=procedimientos.Medico_Agenda(request.POST['medico_id'],request.POST['fecha'])
+		print agenda
+		return JsonResponse({'fecha':fecha,'agenda':agenda})
 	else:
 		return HttpResponse({'error':request})
 
@@ -38,11 +48,20 @@ def especialidad_medicos(request):
 		# data = serializers.serialize("json", medico)
 		# return HttpResponse(data)
 		procedimientos=Procedimientos()
-		medicos=procedimientos.Especialidad_Medicos(request.POST['especialidad'])
+		try:
+			medicos=procedimientos.Especialidad_Medicos(request.POST['especialidad'])
+		except Exception, e:
+			medicos={}
+		
 		print medicos
 		return JsonResponse({'medicos':medicos})
 		#data = serializers.serialize("json", medicos)
 		#return HttpResponse(data)
 	else:
 		return HttpResponse({'error':request})
+
+
+def agenda_disp_medico(request,medico_id):
+	print medico_id
+	return render(request,'medico_agenda.html',{'medico_id':medico_id})
 

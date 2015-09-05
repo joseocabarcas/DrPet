@@ -39,35 +39,44 @@ miAplicacion.controller('CtrlCitas', ['$scope', '$http', function($scope, $http)
             })
             .error(function(data) {
             	//console.log(data)
+                $scope.Medicos={};
             });
 	  });
 
 
 	//$scope.$watch($scope.Medicos_Especialidad)
 	
-	$scope.AgendaDisponible = function(){
-		var my_url = 'cita/agenda-disp';
-		var my_data = new Date($scope.id_fecha);
-		var horariodia;
-		switch(my_data.getDay()){
-					
-			case 1: horariodia='Lunes';break;
-    		case 2: horariodia='Martes';break;
-    		case 3: horariodia='Miercoles';break;
-    		case 4: horariodia='Jueves';break;
-    		case 5: horariodia='Viernes';break;
-    		case 6: horariodia='Sabado';break;
-    		case 0: horariodia='Domingo';break;
-		}
-		//console.log(horariodia)
-		var datas= {
-			fecha:horariodia
-		}
-		console.log(datas)
+}])
 
 
 
-		  /*$http({
+miAplicacion.controller('CtrlCitasMedcio', ['$scope', '$http', function($scope, $http){
+
+   
+    
+    $scope.AgendaDisponible = function(){
+        var my_data = ($scope.id_fecha);
+        var horariodia;
+        switch(new Date(my_data).getDay()){
+                    
+            case 1: horariodia='Lunes';break;
+            case 2: horariodia='Martes';break;
+            case 3: horariodia='Miercoles';break;
+            case 4: horariodia='Jueves';break;
+            case 5: horariodia='Viernes';break;
+            case 6: horariodia='Sabado';break;
+            case 0: horariodia='Domingo';break;
+            default:horariodia='';break;
+        }
+        //console.log(horariodia)
+        var datas= {
+            fecha:horariodia
+        }
+        console.log(datas)
+
+
+
+          /*$http({
             method:'POST',
             url:'cita/agenda-disp',
             data:datas
@@ -75,16 +84,16 @@ miAplicacion.controller('CtrlCitas', ['$scope', '$http', function($scope, $http)
                   console.log(data);
             })*/
 
-            $http.post('cita/agenda-disp',datas)
+            $http.post('../../agenda-disp',datas)
             .success(function(data){
-            	console.log(data);
+                console.log(data);
             })
             .error(function(data) {
-            	console.log(data)
+                //console.log(data)
             })
 
 
-		  /*$http({
+          /*$http({
             method:'POST',
             url:'cita/agenda-disp',
             data:datas,
@@ -92,5 +101,54 @@ miAplicacion.controller('CtrlCitas', ['$scope', '$http', function($scope, $http)
             }).success(function(data){
                   console.log(data);
             })*/
-	}
+    }
+    $scope.$watch('id_fecha',function(data){
+         var my_data = (data);
+            var horariodia;
+            switch(new Date(my_data).getDay()){
+                        
+                case 1: horariodia='Lunes';break;
+                case 2: horariodia='Martes';break;
+                case 3: horariodia='Miercoles';break;
+                case 4: horariodia='Jueves';break;
+                case 5: horariodia='Viernes';break;
+                case 6: horariodia='Sabado';break;
+                case 0: horariodia='Domingo';break;
+                default:horariodia='';break;
+            }
+            //console.log(horariodia)
+            var datas= {
+                fecha:horariodia,
+                medico_id:$scope.medico_id
+            }
+            console.log(datas)
+
+
+
+              /*$http({
+                method:'POST',
+                url:'cita/agenda-disp',
+                data:datas
+                }).success(function(data){
+                      console.log(data);
+                })*/
+
+                $http.post('../../agenda-disp',datas)
+                .success(function(data){
+                    console.log(data);
+                })
+                .error(function(data) {
+                    //console.log(data)
+                })
+
+
+              /*$http({
+                method:'POST',
+                url:'cita/agenda-disp',
+                data:datas,
+                headers:{'Content-Type': 'application/x-www-form-urlencoded'},
+                }).success(function(data){
+                      console.log(data);
+                })*/
+    });
 }])

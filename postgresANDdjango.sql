@@ -45,13 +45,120 @@ AS $$
     SELECT medicos_medico.id, medicos_medico.empresa, medicos_medico.descripcion, medicos_medico.usuario_id,  usuarios_usuario.nombre1||' '||usuarios_usuario.nombre2||' '||usuarios_usuario.apellido1||' '||usuarios_usuario.apellido2 as nombre, usuarios_usuario.direccion  
     FROM medicos_medico INNER JOIN usuarios_usuario ON ( medicos_medico.usuario_id = usuarios_usuario.id ) 
     WHERE medicos_medico.especialidad_id = idespecialidad;
-
 $$ LANGUAGE SQL;
 
 select * from Especialidad_Medicos(1) as t (id integer,empresa character,descripcion character,id_usuario integer,nombre character,direccion character);
 /*
 Segundo SP
 */
+
+
+/*
+Tercer SP
+Listado de Medicos Segun la Especialidad
+*/
+DROP FUNCTION Medico_Agenda(integer,varchar);
+CREATE OR REPLACE FUNCTION Medico_Agenda
+(IN idmedico integer,IN dia varchar)
+RETURNS SETOF RECORD
+AS $$
+    SELECT AG.ID,AG.HORA_INI,AG.HORA_FIN,AG.FRECUENCIA,AD.DIA 
+    FROM AGENDAS_AGENDA AG INNER JOIN AGENDAS_DIA AD ON AG.DIA_ID=AD.ID 
+    WHERE AG.MEDICO_ID = idmedico AND LOWER(AD.DIA)=LOWER(dia);
+$$ LANGUAGE SQL;
+
+select * from Medico_Agenda(1,'LuNeS') as t (id integer,hora_ini time,hora_fin time,frecuencia integer,dia character);
+/*
+Tercer SP
+*/
+
+
+
+/*
+Primer SP con excepciones
+*/
+DROP FUNCTION listadoagendas(integer);
+CREATE OR REPLACE FUNCTION listadoAgendas(idmedico integer)
+RETURNS SETOF RECORD
+AS $BODY$
+BEGIN
+	RETURN QUERY
+    SELECT AG.ID,AG.HORA_INI,AG.HORA_FIN,AG.FRECUENCIA,AD.DIA 
+    FROM AGENDAS_AGENDA AG INNER JOIN AGENDAS_DIA AD ON AG.DIA_ID=AD.ID 
+    WHERE AG.MEDICO_ID = idmedico;
+    IF NOT FOUND THEN
+        RAISE EXCEPTION 'El Medico % no tiene Agendas  Asignadas.', $1;
+    END IF;
+END;
+$BODY$ 
+LANGUAGE plpgsql;
+
+select * from listadoAgendas(1) as t (id integer,hora_ini time,hora_fin time,frecuencia integer,dia varchar(50));
+
+
+/*
+Primer SP con excepciones
+*/
+
+
+
+
+/*
+Segundo SP con excepciones
+*/
+
+DROP FUNCTION Especialidad_Medicos(integer);
+CREATE OR REPLACE FUNCTION Especialidad_Medicos (idespecialidad integer)
+RETURNS SETOF RECORD
+AS $BODY$
+BEGIN
+	RETURN QUERY 
+	SELECT medicos_medico.id, medicos_medico.empresa, medicos_medico.descripcion, medicos_medico.usuario_id,  usuarios_usuario.nombre1, usuarios_usuario.direccion  
+	FROM medicos_medico INNER JOIN usuarios_usuario ON ( medicos_medico.usuario_id = usuarios_usuario.id ) 
+	WHERE medicos_medico.especialidad_id = idespecialidad;
+	IF NOT FOUND THEN
+        RAISE EXCEPTION 'No existe la Especialidad %.', $1;
+    END IF;
+END;
+$BODY$ 
+LANGUAGE plpgsql;
+
+select * from Especialidad_Medicos(5) as t (id integer,empresa varchar(50),descripcion text,id_usuario integer,nombre varchar(100),direccion varchar);
+/*
+Segundo SP con excepciones
+*/
+
+
+
+/*
+Tercer SP con excepciones
+*/
+DROP FUNCTION Medico_Agenda(integer,varchar);
+CREATE OR REPLACE FUNCTION Medico_Agenda(idmedico integer, nom_dia varchar)
+RETURNS SETOF RECORD
+AS $BODY$
+BEGIN
+	RETURN QUERY 
+    SELECT AG.ID,AG.HORA_INI,AG.HORA_FIN,AG.FRECUENCIA,AD.DIA 
+    FROM AGENDAS_AGENDA AG INNER JOIN AGENDAS_DIA AD ON AG.DIA_ID=AD.ID 
+    WHERE AG.MEDICO_ID = idmedico AND LOWER(AD.DIA)=LOWER(nom_dia);
+	IF NOT FOUND THEN
+        RAISE EXCEPTION 'No se encontraron datos %.', $1;
+    END IF;
+END;
+$BODY$ 
+LANGUAGE plpgsql;
+select * from Medico_Agenda(1,'LuNeS') as t (id integer,hora_ini time,hora_fin time,frecuencia integer,dia varchar(50));
+/*
+Tercer SP con excepciones
+*/
+
+
+
+
+
+
+
 
 
 from django import forms

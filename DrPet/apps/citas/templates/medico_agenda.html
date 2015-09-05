@@ -1,0 +1,17 @@
+{% extends "master.html" %}
+
+{% load static %}
+
+{% block maincontent %}
+<div class="row" ng-app="drpet" ng-controller="CtrlCitasMedcio">
+{% csrf_token %}
+<input type="hidden" ng-model="medico_id" ng-init="medico_id={{medico_id}}">
+	<div class="col s6">
+		<div class="row">
+	        <div class="input-field col s6">
+	          <input type="date" ng-model="id_fecha">
+	        </div>
+        </div>
+	</div>
+</div>
+{% endblock maincontent %}

@@ -8,7 +8,7 @@
 	 
     <form class="col s12" >
     {% csrf_token %}
-    <h3>Registrar Cita</h3>
+    <h3>Buscar Medico</h3>
     	<div class="row">
 	        <div class="input-field col s6">
 	          <select name="especialidad" ng-model="id_especialidad" id="id_especialidad" ng-init="id_especialidad='1'">
@@ -23,7 +23,7 @@
         	<div  class="col s4 m4" ng-repeat="medico in Medicos">
 		        <div class="card teal lighten-1">
 		            <div class="card-content white-text">
-		              <span class="card-title">{$ medico.nombre $}</span><br>
+		              <span class="card-title"><a href="cita/agenda-disp-medico/{$medico.id$}/" class="white-text">{$ medico.nombre $}</a></span><br>
 		              <p><label class="black-text" style="font-size:14px;">Empresa:  </label> {$ medico.empresa $}</p>
 		              <p><label class="black-text" style="font-size:14px;">Descripcion:  </label>{$ medico.descripcion $}</p>
 		              <p><label class="black-text" style="font-size:14px;">Direccion:  </label>{$ medico.direccion $}</p>
@@ -35,7 +35,6 @@
 		    </div>
       	</div>
      
-      <button class="waves-effect waves-light btn" ng-click="AgendaDisponible()">Guardar</button>
     </form>
   </div>
 

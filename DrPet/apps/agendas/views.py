@@ -37,7 +37,8 @@ class AgendaView(TemplateView):
 
 def editar_agenda(request,agenda_id):
 	agenda=get_object_or_404(Agenda,pk=agenda_id)
-	dia=Dia.objects.get(pk=agenda.id)
+	print agenda.dia.id
+	dia=Dia.objects.get(pk=agenda.dia.id)
 	print dia.id
 	if request.method=='POST':
 		agenda_form = AgendaForm(request.POST,instance=agenda)
@@ -70,15 +71,21 @@ def listadoAgendas(request):
 	medico= Medico.objects.get(usuario=request.user.id)
 	#agendas=Agenda.objects.filter(medico=medico)
 	#print agendas.query
-	#print medico.id
+	print medico.id
 	procedimientos=Procedimientos()
-	agendas=procedimientos.listadoAgendas(medico.id)
+	try:
+		agendas=procedimientos.listadoAgendas(medico.id)
+	except Exception, e:
+		agendas={}
+	
 	return render(request,'listadoAgenda.html',{'agendas':agendas})
 
 
 def eliminar_agenda(request,agenda_id):
 	agenda=get_object_or_404(Agenda,pk=agenda_id)
-	dia=Dia.objects.get(pk=agenda.id)
+	print agenda.dia.id
+	dia=Dia.objects.get(pk=agenda.dia.id)
+	print dia.id
 	if request.method=='POST':
 		agenda.delete()
 		return redirect('agenda/listado')

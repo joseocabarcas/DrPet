@@ -38,9 +38,19 @@ class Procedimientos():
 
 	def Especialidad_Medicos(self,id_especialidad):
 		cursor = connection.cursor()
-		cursor.execute("select * from Especialidad_Medicos(%s) as t (id integer,empresa character,descripcion character,id_usuario integer,nombre character,direccion character);", [id_especialidad])
+		#cursor.execute("select * from Especialidad_Medicos(%s) as t (id integer,empresa character,descripcion character,id_usuario integer,nombre character,direccion character);", [id_especialidad])
+		cursor.execute("select * from Especialidad_Medicos(%s) as t (id integer,empresa varchar(50),descripcion text,id_usuario integer,nombre varchar(100),direccion varchar);", [id_especialidad])
 		medicos=dictfetchall(cursor)
 		cursor.close()
 		#print medicos
 		return medicos
+
+	def Medico_Agenda(self,idmedico,nomdia):
+		cursor = connection.cursor()
+		#cursor.execute("select * from Medico_Agenda(1,'LuNeS') as t (id integer,hora_ini time,hora_fin time,frecuencia integer,dia character);", [idmedico,nomdia])
+		cursor.execute("select * from Medico_Agenda(%s, %s) as t (id integer,hora_ini time,hora_fin time,frecuencia integer,dia varchar(50));", [idmedico,nomdia])
+		agenda=dictfetchall(cursor)
+		cursor.close()
+		print agenda
+		return agenda
 	
