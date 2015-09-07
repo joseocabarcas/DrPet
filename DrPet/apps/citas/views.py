@@ -29,12 +29,12 @@ def fecha_agenda_disp(request):
 		print fecha
 		print medico_id
 		procedimientos= Procedimientos()
-		# try:
-		# 	agenda=procedimientos.Medico_Agenda(medico_id,fecha)
-		# except Exception, e:
-		# 	agenda={}
-		# 	print e
-		agenda=procedimientos.Medico_Agenda(request.POST['medico_id'],request.POST['fecha'])
+		try:
+			agenda=procedimientos.Medico_Agenda(medico_id,fecha)
+		except Exception, e:
+			agenda={}
+			print e
+		#agenda=procedimientos.Medico_Agenda(request.POST['medico_id'],request.POST['fecha'])
 		print agenda
 		return JsonResponse({'fecha':fecha,'agenda':agenda})
 	else:
