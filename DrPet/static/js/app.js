@@ -78,25 +78,27 @@ miAplicacion.controller('CtrlCitasMedcio', ['$scope', '$http', function($scope, 
                 $http.post('../../agenda-disp',datas)
                 .success(function(data){
 
+
+
                   $scope.total=[]
 
                   $scope.agenda_id=data.agenda[0].id;
                     console.log(data.agenda[0]);
             
-                    var inicio = moment(data.agenda[0].hora_ini,'HH:mm:ss').format('HH:mm:ss')
-                    var fin = moment(data.agenda[0].hora_fin,'HH:mm:ss').format('HH:mm:ss')
+                    var inicio = moment(data.agenda[0].hora_ini,'HH:mm').format('HH:mm')
+                    var fin = moment(data.agenda[0].hora_fin,'HH:mm').format('HH:mm')
                     var frecuencia = moment(data.agenda[0].frecuencia,'mm').format('mm')
 
                     
                     //$scope.total=[];
-                    var comienzo=moment(inicio,'HH:mm:ss').add(frecuencia, 'minutes').format('HH:mm:ss');
+                    var comienzo=moment(inicio,'HH:mm').add(frecuencia, 'minutes').format('HH:mm');
 
                     console.log(comienzo);
                     console.log(fin);
                     
                   while(comienzo<=fin){
                     $scope.total.push(comienzo);
-                    comienzo=moment(comienzo,'HH:mm:ss').add(frecuencia, 'minutes').format('HH:mm:ss');
+                    comienzo=moment(comienzo,'HH:mm').add(frecuencia, 'minutes').format('HH:mm');
                     console.log($scope.total);
                   }
                     

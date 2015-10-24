@@ -8,13 +8,13 @@
 
 
 		{% csrf_token %}
-		<input type="hidden" ng-model="medico_id" ng-init="medico_id={{medico_id}}">
-		<input type="hidden" ng-model="agenda_id">
-
+		<input ng-model="medico_id" ng-init="medico_id={{medico_id}}" name="medico">
+		<input  ng-model="agenda_id" name="agenda">
+<!--
 		<div class="row">
 			<div class="col-xs-6">
 				<fieldset class="form-group">
-				<label for="id_fecha">Fecha</label>
+					<label for="id_fecha">Fecha</label>
 					<input type="date" ng-model="id_fecha" class="form-control">
 				</fieldset>
 			</div>
@@ -24,15 +24,39 @@
 
 		<div class="row">
 			<div class="col-md-3" >
-			<label for="hora_fin">Hora de la Cita</label>
+				<label for="hora_fin">Hora de la Cita</label>
 				<select id="hora_fin" name="hora_cita" ng-model="hora_cita" ng-options=" hora for hora in total " class="form-control">
 					<option value="default">default</option>
 				</select>
 			</div>
-		</div><br>
+		</div>
+-->
+		<div class="card">
+			<div class="card-header">
+			Guardar Cita
+			</div>
+			<div class="card-block">
+				<fieldset class="form-group">
+					<div class="col-xs-6">
+				<fieldset class="form-group">
+					<label for="id_fecha">Fecha</label>
+					<input type="date" ng-model="id_fecha" class="form-control" name="fecha">
+				</fieldset>
+			</div>
+				</fieldset>
 
-		<button class="btn btn-primary" >Guardar</button>
-	</form>
-</div>
+				<fieldset class="form-group">
+					<div class="col-xs-6" >
+				<label for="hora_fin">Hora de la Cita</label>
+				<select id="hora_fin" name="hora_cita" ng-model="hora_cita" class="form-control">
+					<option value="{$ hora $}" ng-repeat="hora in total">{$ hora $}</option>
+				</select>
+			</div>
+				</fieldset>
+			</div>
 
-{% endblock maincontent %}
+			<button class="btn btn-primary btn-lg btn-block" >Guardar</button>
+		</form>
+	</div>
+
+	{% endblock maincontent %}

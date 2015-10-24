@@ -18,7 +18,7 @@ class Cita(models.Model):
 		verbose_name_plural = "Citas"
 
 	def __unicode__(self):
-		return "%s" % self.hora_ini
+		return "%s" % self.hora_cita
 
 class Seguimiento(models.Model):
 

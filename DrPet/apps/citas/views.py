@@ -1,10 +1,11 @@
-from django.shortcuts import render,get_object_or_404
+from django.shortcuts import render,get_object_or_404,redirect
 from django.views.generic import TemplateView
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse,HttpResponse
 from apps.agendas.models import Agenda,Dia
 from apps.medicos.models import Especialidad,Medico
 from apps.usuarios.models import Usuario
+from apps.pacientes.models import Paciente
 from .models import Cita,Procedimientos
 import json 
 from django.views.decorators.csrf import csrf_exempt,csrf_protect
@@ -63,13 +64,22 @@ def especialidad_medicos(request):
 
 def agenda_disp_medico(request,medico_id):
 	if request.method =="POST":
-		pass
+		agenda=Agenda.objects.get(pk=request.POST['agenda'])
+		paciente=Paciente.objects.get(usuario=request.user.id)
+		print request.POST['hora_cita']
+		print request.POST['fecha']
+		cita= Cita.objects.create(hora_cita=(request.POST['hora_cita']),fecha=request.POST['fecha'],
+			estado=0,agenda=agenda,paciente=paciente)
+		cita.save
+		return redirect('cita/listado')
 	else:
 		return render(request,'medico_agenda.html',{'medico_id':medico_id})
 
 def listadoCitas(request):
 	try:
-		citas= Cita.objects.get(paciente=request.user.id)
+		paciente=Paciente.objects.get(usuario=request.user.id)
+		citas= Cita.objects.filter(paciente=paciente)
+		print citas
 	except Cita.DoesNotExist:
 		citas = None
 	return render(request,'listado_citas.html',{'citas':citas})
