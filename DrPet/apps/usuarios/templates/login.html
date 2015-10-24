@@ -5,29 +5,37 @@
 {% block maincontent %}
 
 
- <div class="row">
-	 {% if mensaje %}
-	    <a class="btn" id="message" onclick="Materialize.toast('{{ mensaje }}', 4000)"></a>
-	{% endif %}
-    <form class="col s12" method="POST">
-    {% csrf_token %}
-    <h3>Iniciar Sesion</h3>
-      <div class="row">
-        <div class="input-field col s6">
-          {{login_form.username}}
-          <label for="id_username">Username</label>
-        </div>
-      </div>
-      <div class="row">
-        <div class="input-field col s6">
-          {{login_form.password}}
-          <label for="id_password">Password</label>
-        </div>
-      </div>
-      <button class="waves-effect waves-light btn">Login</button>
-    </form>
+<div class="row">
+  {% if login_form.errors %}
+  <div class="alert alert-danger container" role="alert">
+    {% for error in login_form.non_field_errors %}
+    <li>{{ error }}</li>
+    {% endfor %}
   </div>
+  {% endif %}
 
-	
+  <form class="col-md-6 col-md-offset-3" method="POST">
+    {% csrf_token %}
+    <div class="card">
+      <div class="card-header">
+        Iniciar Sesion
+      </div>
+      <div class="card-block">
+        <fieldset class="form-group">
+          <label for="id_username">Username</label>
+          {{login_form.username}}
+        </fieldset>
+
+        <fieldset class="form-group">
+         <label for="id_password">Password</label>
+         {{login_form.password}}
+       </fieldset>
+     </div>
+     <button type="submit" class="btn btn-primary btn-lg btn-block">Login</button>
+   </div>
+ </form>
+</div>
+
+
 {% endblock maincontent %}
 

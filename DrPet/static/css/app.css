@@ -1,1 +1,13 @@
 select option:empty { display:none }
+/*select{
+    display: inline;
+  }*/
+
+textarea {
+    resize: none;
+}
+
+.errorlist{
+	color: red;
+
+}

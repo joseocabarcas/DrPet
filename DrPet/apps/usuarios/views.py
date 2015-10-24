@@ -19,8 +19,11 @@ def index(request):
 		login_form=LoginForm(request.POST)
 		if login_form.is_valid():
 			LogIn(request,login_form.cleaned_data['username'],
-				login_form.cleaned_data['password'])
-			return redirect('/')
+				login_form.cleaned_data['password'],login_form)
+			
+		else:
+			print "45"
+			return render(request,'login.html',{'login_form':login_form},context_instance=RequestContext(request))
 	if request.user.is_authenticated:
 		if Paciente.objects.filter(usuario__id=request.user.id):
 			role = get_user_role(request.user)

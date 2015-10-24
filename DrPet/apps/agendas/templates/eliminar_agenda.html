@@ -6,12 +6,12 @@
 
 
  <div class="row">
-    <form class="col s12" method="POST">
+    <form class="col-md-8" method="POST">
     {% csrf_token %}
     <h4>Eliminando Agenda de los: {{dia.dia}}</h4>
       
-      <button class="waves-effect waves-light btn red">Si</button>
-      <a href="{% url 'agenda/listado' %}" class="waves-effect waves-light btn green">No</a>
+      <button class="btn btn-danger">Si</button>
+      <a href="{% url 'agenda/listado' %}" class="btn btn-secondary">No</a>
     </form>
   </div>
 

@@ -10,6 +10,6 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "Materialize": "materialize#~0.97.0"
+    "bootstrap": "v4.0.0-alpha"
   }
 }

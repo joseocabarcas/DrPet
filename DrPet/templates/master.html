@@ -2,103 +2,96 @@
 {% load staticfiles %}
 {% load permission_tags %}
 <html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title>DrPet</title>
-    <link rel="stylesheet" href="{% static 'bower_components/Materialize/dist/css/materialize.min.css' %}">
-    <link rel="stylesheet" href="{% static 'node_modules/ng-slider/dist/css/ng-slider.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/app.css' %}">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<head lang="es">
+  <title>DrPet</title>
+  <!-- Required meta tags always come first -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+  <link rel="stylesheet" href="{% static 'bower_components/bootstrap/dist/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'node_modules/ng-slider/dist/css/ng-slider.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/app.css' %}">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 
 </head>
 <body>
-    <!-- Dropdown Structure -->
-    <ul id="agendas" class="dropdown-content">
-      <li><a href="{% url 'agenda/listado' %}">Agendas</a></li>
-      <li><a href="{% url 'agenda' %}">Registrar</a></li>
-    </ul>
-    <ul id="citas" class="dropdown-content">
-      <li><a href="#!">Citas</a></li>
-      <li><a href="{% url 'cita' %}">Registrar</a></li>
-    </ul>
-    <ul id="sesion" class="dropdown-content" style='width: auto !important;'>
-      <li><a href="#">{{user.username|capfirst}}</a></li>
-      <li><a href="{% url 'logout' %}" style='width: auto !important;'>Cerrar Sesion</a></li>
-    </ul>
-    <nav>
-      <div class="nav-wrapper teal darken-2">
-        <a href="{% url '/' %}" class="brand-logo">DrPet</a>
+
+
+  
+  <nav class="navbar navbar-dark bg-primary">
+    <!-- Toggle Button -->
+    <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse" data-target="#nav-content">
+      ☰
+    </button>
+    <a href="{% url '/' %}" class="navbar-brand">DrPet</a>
+
+    <div class="collapse navbar-toggleable-xs" id="nav-content">
+      <ul class="nav navbar-nav pull-right">
         {% if  user.is_anonymous %}
-        <ul class="right hide-on-med-and-down">
-          <li><a href="{% url 'register/medico' %}">Eres Medico? Registrate</a></li>
-          <li><a href="{% url 'register/paciente' %}">Eres Paciente? Registrate</a></li>
-        </ul>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'register/medico' %}">Eres Medico? Registrate</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'register/paciente' %}">Eres Paciente? Registrate</a>
+        </li>
         {% endif %}
 
         {% if  user.is_authenticated %}
-            <ul class="right hide-on-med-and-down">
-            {% if user|can:'medicos' %}
-              <li><a class="dropdown-button" href="#!" data-activates="agendas">Agendas<i class="material-icons right"></i></a></li>
-            {% endif %}
-            {% if user|can:'pacientes' %}
-              <li><a class="dropdown-button" href="#!" data-activates="citas">Citas<i class="material-icons right"></i></a></li>
-            {% endif %}
-            
-              <li><a class="dropdown-button" href="#!" data-activates="sesion"><i class="material-icons dp48">perm_identity</i></a></li>
-            </ul>
-         {% endif %}
-      </div>
-    </nav>
-
-    
-    <div class="container">
-        {% block maincontent %}
-        {% endblock maincontent %}
+        {% if user|can:'medicos' %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Agendas</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="{% url 'agenda/listado' %}">Agendas</a>
+            <a class="dropdown-item" href="{% url 'agenda' %}">Registrar</a>
+          </div>
+        </li>
+        {% endif %}
+        {% if user|can:'pacientes' %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Citas</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="{% url 'cita/listado' %}">Citas</a>
+            <a class="dropdown-item" href="{% url 'cita' %}">Registrar</a>
+          </div>
+        </li>
+        {% endif %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+            <i class="material-icons dp48">perm_identity</i>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="Preview">
+            <a class="dropdown-item" href="#">{{user.username|capfirst}}</a>
+            <a class="dropdown-item" href="{% url 'logout' %}" style='width: auto !important;'>Cerrar Sesion</a>
+          </div>
+        </li>
+        {% endif %}
+      </ul>
     </div>
-
-    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src="{% static 'bower_components/Materialize/dist/js/materialize.min.js' %}"></script>
-    <script src="{% static 'node_modules/angular/angular.min.js' %}"></script>
-    <script src="https://code.angularjs.org/1.4.4/angular-cookies.js"></script>
-    
-    
-    <script src="{% static 'node_modules/ng-slider/dist/ng-slider.min.js' %}"></script>
-    <script src="{% static 'js/app.js' %}"></script>
+  </nav>
 
 
-    <script type="text/javascript">
-    $(document).ready(function(){
-      $('select').material_select();
-      $('.datepicker').pickadate({
-          selectMonths: true, // Creates a dropdown to control month
-          min: new Date(1900,1,20),
-          max: new Date(2015,12,14) // Creates a dropdown of 15 years to control year
-        });
-      /*
-      $('.dropdown-button').dropdown({
-            inDuration: 300,
-            outDuration: 225,
-            constrain_width: false, activator
-            hover: true, 
-            gutter: 0, 
-            belowOrigin: false 
-          }
-        );*/
-    })
-
- 
 
 
-    </script>
 
-    <script type="text/javascript" >
+
+
   
-      $(document).ready(function () {
+  <div class="container-fluid">
+    {% block maincontent %}
+    {% endblock maincontent %}
+  </div>
 
-          $('#message').trigger('click'); 
-            
-      });
-    </script>
-    
+
+
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
+  <script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'node_modules/angular/angular.min.js' %}"></script>
+  <script src="{% static 'node_modules/ng-slider/dist/ng-slider.min.js' %}"></script>
+  <script src="{% static 'js/app.js' %}"></script>
+
+
 </body>
 </html>

@@ -1,0 +1,35 @@
+
+{% extends "master.html" %}
+
+{% load static %}
+
+{% block maincontent %}
+
+
+
+<div class="row">
+  {% if citas%}
+
+  {% for cita in citas %}
+  <div  class="col-md-4">
+    <div class="card">
+      <div class="card-header">
+       {{cita.dia}}
+      </div>
+      <div class="card-block">
+      <blockquote class="card-blockquote">
+      <p><strong class="black-text" style="font-size:14px;">Hora de Inicio:  </strong> {{cita.hora_ini}}</p>
+      <p><strong class="black-text" style="font-size:14px;">Hora de Fin:  </strong>{{cita.hora_fin}}</p>
+      <p><strong class="black-text" style="font-size:14px;">Frecuencia:  </strong>{{cita.frecuencia}}</p>
+      </blockquote>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  
+  {% else %}
+  <h4>No hay Citas Registradas</h4>
+  {% endif %}
+</div> 
+
+{% endblock maincontent %}

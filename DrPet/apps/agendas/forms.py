@@ -23,14 +23,16 @@ class AgendaForm(forms.ModelForm):
         widgets= {
         	'hora_ini':forms.TimeInput(attrs=
                 {
-                'class':'pick-a-time'
+                
                 },),
         	'hora_fin':forms.TimeInput(attrs=
         		{
         		
         		},),
         	'frecuencia':forms.Select(choices=FRECUENCIA_CHOICES,attrs={
-                
+                'ng-model':'value',
+                'ng-init':"value='10'",
+                'class':'form-control'
                 }),
         	
         }

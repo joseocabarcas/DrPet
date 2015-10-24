@@ -4,38 +4,42 @@
 
 {% block maincontent %}
 
- <div class="row" ng-app="drpet" ng-controller="CtrlCitas">
-	 
-    <form class="col s12" >
-    {% csrf_token %}
-    <h3>Buscar Medico</h3>
-    	<div class="row">
-	        <div class="input-field col s6">
-	          <select name="especialidad" ng-model="id_especialidad" id="id_especialidad" ng-init="id_especialidad='1'">
-	          {% for especialidad in  especialidades%}
-	         <option value="{{ especialidad.id }}">{{ especialidad.nombre }}</option>
-	          {% endfor %}
-	          </select>
-	        </div>
-        </div>
-    
-      	<div class="row">
-        	<div  class="col s4 m4" ng-repeat="medico in Medicos">
-		        <div class="card teal lighten-1">
-		            <div class="card-content white-text">
-		              <span class="card-title"><a href="cita/agenda-disp-medico/{$medico.id$}/" class="white-text">{$ medico.nombre $}</a></span><br>
-		              <p><label class="black-text" style="font-size:14px;">Empresa:  </label> {$ medico.empresa $}</p>
-		              <p><label class="black-text" style="font-size:14px;">Descripcion:  </label>{$ medico.descripcion $}</p>
-		              <p><label class="black-text" style="font-size:14px;">Direccion:  </label>{$ medico.direccion $}</p>
-		            </div>
-		            <div class="card-action center-align">
-                        <a href="#" class="truncate blue-text text-darken-4">{$  $}</a>
-                    </div>
-		        </div>
-		    </div>
-      	</div>
-     
-    </form>
-  </div>
+<div class="row" ng-app="drpet" ng-controller="CtrlCitas">
+
+	<form class="col-md-12 col-md-offset-3" >
+		{% csrf_token %}
+		<h3>Buscar Medico</h3>
+		<div class="row">
+			<div class="col-md-4">
+				<select name="especialidad" ng-model="id_especialidad" id="id_especialidad" ng-init="id_especialidad='1'" class="form-control">
+					{% for especialidad in  especialidades%}
+					<option value="{{ especialidad.id }}">{{ especialidad.nombre }}</option>
+					{% endfor %}
+				</select>
+			</div>
+		</div>
+
+		<div class="row">
+			<div  class="col-md-4" ng-repeat="medico in Medicos">
+			
+				<div class="card">
+					<div class="card-header">
+						<a href="cita/agenda-disp-medico/{$medico.id$}/" class="white-text">
+						{$ medico.nombre $}
+						</a>
+					</div>
+					<div class="card-block">
+						<blockquote class="card-blockquote">
+							<p><label class="black-text" style="font-size:14px;">Empresa:  </label> {$ medico.empresa $}</p>
+							<p><label class="black-text" style="font-size:14px;">Descripcion:  </label>{$ medico.descripcion $}</p>
+							<p><label class="black-text" style="font-size:14px;">Direccion:  </label>{$ medico.direccion $}</p>
+						</blockquote>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</form>
+</div>
 
 {% endblock maincontent %}

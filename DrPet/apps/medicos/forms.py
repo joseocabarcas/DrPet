@@ -9,7 +9,7 @@ class MedicoForm(forms.ModelForm):
 
         widgets={
         'descripcion':forms.Textarea(attrs={
-        	'class':'materialize-textarea',
+        	'class':'form-control',
         	'rows':'3'
         	}),
         'empresa':forms.TextInput(attrs={

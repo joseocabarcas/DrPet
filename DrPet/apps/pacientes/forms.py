@@ -9,6 +9,7 @@ class PacienteForm(forms.ModelForm):
         exclude= ('usuario',)
         widgets={
         'fecha_nacimiento':forms.DateInput(attrs={
-        	'class':'',
+        	'class':'form-control',
+        	'type':'date'
         	}),
         }

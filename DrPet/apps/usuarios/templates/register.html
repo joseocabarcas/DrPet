@@ -5,120 +5,150 @@
 {% block maincontent %}
 
 
-
- <div class="row">
-    <form class="col s12" method="POST">
+<div class="row">
+  <form class="col-md-8 col-md-offset-2" method="POST">
     {% csrf_token %}
-    <h3>Registrate en la plataforma</h3>
-      <div class="row">
-        <div class="input-field col s6">
-          {{ usuario_register.nombre1 }}
-          {{ usuario_register.nombre1.errors }}
-          <label for="id_nombre1">Primer Nombre</label>
-        </div>
-        <div class="input-field col s6">
-          	{{ usuario_register.nombre2 }}
-          	{{ usuario_register.nombre2.errors }}
-          <label for="id_nombre2">Segundo Nombre</label>
-        </div>
+    <div class="card">
+      <div class="card-header">
+        Registrate en la plataforma
       </div>
-      <div class="row">
-        <div class="input-field col s6">
-          {{ usuario_register.apellido1 }}
-          {{ usuario_register.apellido1.errors }}
-          <label for="id_apellido1">Primer Apellido</label>
+      <div class="card-block">
+        <div class="col-xs-6">
+          <fieldset class="form-group">
+            <label for="id_nombre1">Primer Nombre</label>
+            {{ usuario_register.nombre1 }}
+            {{ usuario_register.nombre1.errors }}
+          </fieldset>
         </div>
-        <div class="input-field col s6">
-          	{{ usuario_register.apellido2 }}
-          	{{ usuario_register.apellido2.errors }}
-          <label for="id_apellido2">Segundo Apellido</label>
+        <div class="col-xs-6">
+          <fieldset class="form-group">
+            <label for="id_nombre2">Segundo Nombre</label>
+            {{ usuario_register.nombre2 }}
+            {{ usuario_register.nombre2.errors }}
+          </fieldset>        
         </div>
-      </div>
-      <div class="row">
-        <div class="input-field col s4">
-          {{usuario_register.celular}}
-          {{usuario_register.celular.errors}}
-          <label for="id_celular">Celular</label>
+
+        <div class="col-xs-6">
+          <fieldset class="form-group">
+            <label for="id_apellido1">Primer Apellido</label>
+            {{ usuario_register.apellido1 }}
+            {{ usuario_register.apellido1.errors }}
+          </fieldset>        
         </div>
-        <div class="input-field col s4">
-          	{{usuario_register.email}}
-          	{{usuario_register.email.errors}}
-          <label for="id_email">Email</label>
+        <div class="col-xs-6">
+          <fieldset class="form-group">
+            <label for="id_apellido2">Segundo Apellido</label>
+            {{ usuario_register.apellido2 }}
+            {{ usuario_register.apellido2.errors }}
+          </fieldset>        
         </div>
-        <div class="input-field col s4">
-          	{{usuario_register.direccion}}
-          	{{usuario_register.direccion.errors}}
+
+        <div class="col-xs-6">
+          <fieldset class="form-group">
+            <label for="id_celular">Celular</label>
+            {{usuario_register.celular}}
+            {{usuario_register.celular.errors}}
+          </fieldset>        
+        </div>
+        <div class="col-xs-6">
+         <fieldset class="form-group">
+           <label for="id_email">Email</label>
+           {{usuario_register.email}}
+           {{usuario_register.email.errors}}
+         </fieldset>       
+       </div>
+
+       <div class="col-xs-6">
+        <fieldset class="form-group">
           <label for="id_email">Direccion</label>
-        </div>
+          {{usuario_register.direccion}}
+          {{usuario_register.direccion.errors}}
+        </fieldset>      
       </div>
-      <div class="row">
-        <div class="input-field col s4">
+      <div class="col-xs-6">
+        <fieldset class="form-group">
+          <label for="id_identificacion">Identificacion</label>
           {{usuario_register.identificacion}}
           {{usuario_register.identificacion.errors}}
-          <label for="id_identificacion">Identificacion</label>
-        </div>
-        <div class="input-field col s4">
-          	{{usuario_register.tipo_identificacion}}
-          	{{usuario_register.tipo_identificacion.errors}}
-          <label for="id_tipo_identificicacion">Tipo de Identificacion</label>
-        </div>
-        <div class="input-field col s4">
-          	{{usuario_register.sexo}}
-          	{{usuario_register.sexo.errors}}
-          <label for="id_sexo">Sexo</label>
-        </div>
+        </fieldset>      
       </div>
-      <div class="row">
-        <div class="input-field col s6">
+
+      <div class="col-xs-6">
+        <fieldset class="form-group">
+          <label for="id_tipo_identificicacion">Tipo de Identificacion</label>
+          {{usuario_register.tipo_identificacion}}
+          {{usuario_register.tipo_identificacion.errors}}
+        </fieldset>      
+      </div>
+      <div class="col-xs-6">
+        <fieldset class="form-group">
+          <label for="id_sexo">Sexo</label>
+          {{usuario_register.sexo}}
+          {{usuario_register.sexo.errors}}
+        </fieldset>      
+      </div>
+
+      <div class="col-xs-6">
+        <fieldset class="form-group">
+          <label for="id_username">Username</label>
           {{usuario_register.username}}
           {{usuario_register.username.errors}} 
-          <label for="id_username">Username</label>
-        </div>
-        <div class="input-field col s6">
-          	{{usuario_register.password}}
-          	{{usuario_register.password.errors}}
-          <label for="id_password">Password</label>
-        </div>
+        </fieldset>      
       </div>
-	{% if request.path == '/register/medico' %}
-		<div class="row">
-			<div class="input-field col s6">
-			  {{medico_register.empresa}}
-			  {{medico_register.empresa.errors}}
-			  <label for="id_empresa">Empresa</label>
-			</div>
-			<div class="input-field col s6" >
-			  {{medico_register.reg_medico}}
-			  {{medico_register.reg_medico.errors}}
-			  <label for="id_reg_medico">Reg. Medico</label>
-			</div>
-		</div>
-		<div class="row">
-			<div class="input-field col s6">
-			  {{medico_register.descripcion}}
-			  {{medico_register.descripcion.errors}}
-			  <label for="id_hora_ini">Descripcio</label>
-			</div>
-			<div class="input-field col s6" >
-			  {{medico_register.especialidad}}
-			  {{medico_register.especialidad.errors}}
-			  <label for="id_especialidad">Especialidad</label>
-			</div>
-		</div>
-			
+      <div class="col-xs-6">
+        <fieldset class="form-group">
+          <label for="id_password">Password</label>
+          {{usuario_register.password}}
+          {{usuario_register.password.errors}}
+        </fieldset>      
+      </div>
 
-    {% elif request.path == '/register/paciente' %} 
-        <div class="row">
-	        <div class="input-field col s6">
-	          {{paciente_register.fecha_nacimiento}}
-            {{paciente_register.fecha_nacimiento.errors}}
-	          <label for="id_fecha_nacimiento">Fecha de Nacimiento</label>
-	        </div>
-	    </div>
-	{% endif %}
-      <button class="waves-effect waves-light btn">Guardar</button>
-    </form>
+
+      {% if request.path == '/register/medico' %}
+      <div class="col-xs-6">
+        <fieldset class="form-group">
+          <label for="id_empresa">Empresa</label>
+          {{medico_register.empresa}}
+          {{medico_register.empresa.errors}}
+        </fieldset>    
+      </div>
+      <div class="col-xs-6">
+        <fieldset class="form-group">
+          <label for="id_reg_medico">Reg. Medico</label>
+          {{medico_register.reg_medico}}
+          {{medico_register.reg_medico.errors}}
+        </fieldset>    
+      </div>
+      <div class="col-xs-6">
+        <fieldset class="form-group">
+          <label for="id_hora_ini">Descripcion</label>
+          {{medico_register.descripcion}}
+          {{medico_register.descripcion.errors}}
+        </fieldset>    
+      </div>
+      <div class="col-xs-6">
+        <fieldset class="form-group">
+          <label for="id_especialidad">Especialidad</label>
+          {{medico_register.especialidad}}
+          {{medico_register.especialidad.errors}}
+        </fieldset>    
+      </div>
+      {% elif request.path == '/register/paciente' %}
+      <div class="col-xs-6">
+        <fieldset class="form-group">
+          <label for="id_fecha_nacimiento">Fecha de Nacimiento</label>
+          {{paciente_register.fecha_nacimiento}}
+          {{paciente_register.fecha_nacimiento.errors}}
+        </fieldset>      
+      </div>
+      {% endif %}
+    </div>
+    <button type="submit" class="btn btn-primary btn-lg btn-block">Registrar</button>
   </div>
+</form>
+</div>
+
+
 
 
 {% endblock maincontent %}

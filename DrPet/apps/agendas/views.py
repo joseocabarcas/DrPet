@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
 from django.views.generic import TemplateView
 from .forms import AgendaForm
+from django.http import JsonResponse,HttpResponse
 from .models import Dia,Agenda,Procedimientos
 from apps.medicos.models import Medico
 from django.shortcuts import get_object_or_404
@@ -25,6 +26,9 @@ class AgendaView(TemplateView):
 			dia=Dia.objects.get(pk=request.POST['dia'])
 			agenda.dia=dia
 			agenda.medico=medico
+			print request.POST
+			#agenda.hora_ini=request.POST['hora_ini']
+			#agenda.hora_fin=request.POST['hora_fin']
 			agenda.save()
 			return redirect('agenda/listado')
 		else:
@@ -90,3 +94,14 @@ def eliminar_agenda(request,agenda_id):
 		agenda.delete()
 		return redirect('agenda/listado')
 	return render(request,'eliminar_agenda.html',{'agenda':agenda,'dia':dia})
+
+import json
+def frecuenciaInicio(request):
+	data = open('static/js/horasInicio.json').read() #opens the json file and saves the raw contents
+	validated = json.dumps(json.loads(data))
+	return HttpResponse(validated)
+
+def frecuenciaFin(request):
+	data = open('static/js/horasFin.json').read() #opens the json file and saves the raw contents
+	validated = json.dumps(json.loads(data))
+	return HttpResponse(validated)

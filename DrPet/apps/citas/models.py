@@ -6,8 +6,8 @@ from apps.agendas.functions import dictfetchall
 # Create your models here.
 class Cita(models.Model):
 
-	hora_ini = models.TimeField()
-	hora_fin = models.TimeField()
+	hora_cita = models.TimeField()
+	#hora_fin = models.TimeField()
 	fecha= models.DateField()
 	estado = models.SmallIntegerField()
 	agenda = models.ForeignKey(Agenda,verbose_name='agenda')

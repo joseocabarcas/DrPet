@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404
 from django.views.generic import TemplateView
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse,HttpResponse
@@ -6,7 +6,7 @@ from apps.agendas.models import Agenda,Dia
 from apps.medicos.models import Especialidad,Medico
 from apps.usuarios.models import Usuario
 from .models import Cita,Procedimientos
-import json
+import json 
 from django.views.decorators.csrf import csrf_exempt,csrf_protect
 from django.core import serializers
 # Create your views here.
@@ -26,16 +26,16 @@ def fecha_agenda_disp(request):
 		#print fecha
 		fecha= request.POST['fecha']
 		medico_id= request.POST['medico_id']
-		print fecha
-		print medico_id
+		#print fecha
+		#print medico_id
 		procedimientos= Procedimientos()
 		try:
 			agenda=procedimientos.Medico_Agenda(medico_id,fecha)
 		except Exception, e:
 			agenda={}
-			print e
+			#print e
 		#agenda=procedimientos.Medico_Agenda(request.POST['medico_id'],request.POST['fecha'])
-		print agenda
+		#print agenda.agenda[0]
 		return JsonResponse({'fecha':fecha,'agenda':agenda})
 	else:
 		return HttpResponse({'error':request})
@@ -62,6 +62,15 @@ def especialidad_medicos(request):
 
 
 def agenda_disp_medico(request,medico_id):
-	print medico_id
-	return render(request,'medico_agenda.html',{'medico_id':medico_id})
+	if request.method =="POST":
+		pass
+	else:
+		return render(request,'medico_agenda.html',{'medico_id':medico_id})
+
+def listadoCitas(request):
+	try:
+		citas= Cita.objects.get(paciente=request.user.id)
+	except Cita.DoesNotExist:
+		citas = None
+	return render(request,'listado_citas.html',{'citas':citas})
 

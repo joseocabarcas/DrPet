@@ -8,33 +8,49 @@
 
 
 <div class="row">
-{% if agendas%}
-    
+  {% if agendas%}
 
 
-{% for agenda in agendas %}
-    <div  class="col s3 m3">
-        <div class="card teal lighten-1">
-            <div class="card-content white-text">
-              <span class="card-title">{{agenda.dia}}</span><br>
-              <p><label class="black-text" style="font-size:14px;">Hora de Inicio:  </label> {{agenda.hora_ini}}</p>
-              <p><label class="black-text" style="font-size:14px;">Hora de Fin:  </label>{{agenda.hora_fin}}</p>
-              <p><label class="black-text" style="font-size:14px;">Frecuencia:  </label>{{agenda.frecuencia}}</p>
-            </div>
-            <div class="card-action">
-              <a href="{% url 'agenda/editar/' agenda.id %}"><i class="material-icons">edit</i></a>
-              <a href="{% url 'agenda/eliminar/' agenda.id %}" ><i class="material-icons">delete</i></a>
-            </div>
-        </div>
+
+  {% for agenda in agendas %}
+  <!--
+  <div  class="col s3 m3">
+    <div class="card teal lighten-1">
+      <div class="card-content white-text">
+        <span class="card-title">{{agenda.dia}}</span><br>
+        <p><label class="black-text" style="font-size:14px;">Hora de Inicio:  </label> {{agenda.hora_ini}}</p>
+        <p><label class="black-text" style="font-size:14px;">Hora de Fin:  </label>{{agenda.hora_fin}}</p>
+        <p><label class="black-text" style="font-size:14px;">Frecuencia:  </label>{{agenda.frecuencia}}</p>
+      </div>
+      <div class="card-action">
+        <a href="{% url 'agenda/editar/' agenda.id %}"><i class="material-icons">edit</i></a>
+        <a href="{% url 'agenda/eliminar/' agenda.id %}" ><i class="material-icons">delete</i></a>
+      </div>
     </div>
-{% endfor %}
+  </div>
+-->
+   <div class="card card-block col-sm-3 col-sm-offset-1">
+    <h4 class="card-title">{{agenda.dia}}</h4>
+    
+    <p><strong class="card-text" style="font-size:14px;">Hora de Inicio:  </strong> {{agenda.hora_ini}}</p>
+    <p><strong class="card-text" style="font-size:14px;">Hora de Fin:  </strong>{{agenda.hora_fin}}</p>
+    <p><strong class="card-text" style="font-size:14px;">Frecuencia:  </strong>{{agenda.frecuencia}}</p>
 
 
-{% else %}
 
-<h4>No hay Agendas Registradas</h4>
+    <a href="{% url 'agenda/editar/' agenda.id %}"><i class="material-icons card-link">edit</i></a>
+    <a href="{% url 'agenda/eliminar/' agenda.id %}" ><i class="material-icons card-link">delete</i></a>
+  </div>
+  {% endfor %}
 
-{% endif %}
+
+
+
+  {% else %}
+
+  <h4>No hay Agendas Registradas</h4>
+
+  {% endif %}
 
 
 

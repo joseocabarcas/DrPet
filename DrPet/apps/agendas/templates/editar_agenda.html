@@ -4,43 +4,110 @@
 
 {% block maincontent %}
 
-
-
- <div class="row">
-    <form class="col s12" method="POST">
+<!--
+<div class="row">
+  <form class="col s12" method="POST">
     {% csrf_token %}
     <h3>Editar Agenda</h3>
-      <div class="row">
-        <div class="input-field col s6">
-          {{agenda_form.frecuencia}}
-          {{agenda_form.frecuencia.errors}}
-          <label for="first_name">Frecuencia</label>
-        </div>
-        <div class="input-field col s6">
+    <div class="row">
+      <div class="input-field col s6">
+        {{agenda_form.frecuencia}}
+        {{agenda_form.frecuencia.errors}}
+        <label for="first_name">Frecuencia</label>
+      </div>
+      <div class="input-field col s6">
         <select name="dia" id="dia">
-        <option value="{{dia.id}}" selected>{{agenda.dia}}</option>
-			{% for dia in dias %}
-				<option value="{{dia.id}}">{{dia.dia}}</option>
-			{% endfor %}
-		    </select>
-          <label for="dia">Dia</label>
-        </div>
+          <option value="{{dia.id}}" selected>{{agenda.dia}}</option>
+          {% for dia in dias %}
+          <option value="{{dia.id}}">{{dia.dia}}</option>
+          {% endfor %}
+        </select>
+        <label for="dia">Dia</label>
       </div>
-      <div class="row">
-        <div class="input-field col s6">
-          {{agenda_form.hora_ini}}
-          {{agenda_form.hora_ini.errors}}
-          <label for="id_hora_ini">Hora de Inicio</label>
-        </div>
-        <div class="input-field col s6" >
-          {{agenda_form.hora_fin}}
-          {{agenda_form.hora_fin.errors}}
-          <label for="id_hora_fin">Hora Final</label>
-        </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s6">
+        {{agenda_form.hora_ini}}
+        {{agenda_form.hora_ini.errors}}
+        <label for="id_hora_ini">Hora de Inicio</label>
       </div>
-      <button class="waves-effect waves-light btn">Guardar</button>
-    </form>
-  </div>
+      <div class="input-field col s6" >
+        {{agenda_form.hora_fin}}
+        {{agenda_form.hora_fin.errors}}
+        <label for="id_hora_fin">Hora Final</label>
+      </div>
+    </div>
+    <button class="waves-effect waves-light btn">Guardar</button>
+  </form>
+</div>
 
+
+-->
+{{agenda_form.errors}}
+
+<div class="row" ng-app="drpet" ng-controller="CtrlAgenda">
+  <form class="col-md-8 col-md-offset-2" method="POST" ng-init="calcularHoras()" action="">
+    {% csrf_token %}
+    <div class="card">
+      <div class="card-header">
+        Editar Agenda
+      </div>
+      <div class="card-block">
+        <div class="col-xs-6">
+          <fieldset class="form-group">
+            <label for="first_name">Frecuencia</label>
+            
+            <select class="form-control" id="id_frecuencia" name="frecuencia" ng-init="value='{{agenda.frecuencia}}'" ng-model="value">
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="30">30</option>
+              <option value="40">40</option>
+              <option value="50">50</option>
+              <option value="60">60</option>
+              <option value="70">70</option>
+              <option value="80">80</option>
+              <option value="90">90</option>
+              <option value="100" selected="selected">100</option>
+              <option value="110">110</option>
+              <option value="120">120</option>
+            </select>
+          </fieldset>
+        </div>
+        <div class="col-xs-6">
+          <fieldset class="form-group">
+            <label for="dia">Dia</label>
+            <select name="dia" id="dia" class="form-control">
+              <option value="{{dia.id}}" selected>{{agenda.dia}}</option>
+              {% for dia in dias %}
+              <option value="{{dia.id}}">{{dia.dia}}</option>
+              {% endfor %}
+            </select>
+          </fieldset>        
+        </div>
+
+        <div class="col-xs-6" >
+          <fieldset class="form-group" ng-repeat="dat in datosInicio" ng-if="dat.id==value">
+            <label for="dia">Hora de Inicio</label>
+            <select id="hora_inicio" name="hora_ini" ng-model="dato.inicio" class="form-control" ng-init="dato.inicio='{{agenda.hora_ini}}'">
+            <option value="{{agenda.hora_ini}}" selected>{{agenda.hora_ini}}</option>
+              <option ng-repeat="hora in dat.horas" value="{$ hora $}">{$ hora $}</option>
+            </select>
+          </fieldset>        
+        </div>
+        <div class="col-xs-6">
+          <fieldset class="form-group" ng-repeat="dat in datosFin" ng-if="dat.id==value">
+            <label for="dia">Hora de Fin</label>
+            <select id="hora_fin" name="hora_fin" ng-model="dato.fin" class="form-control" ng-init="dato.fin='{{agenda.hora_fin}}'">
+            <option value="{{agenda.hora_fin}}" selected>{{agenda.hora_fin}}</option>
+              <option ng-repeat="hora in dat.horas" value="{$ hora $}">{$ hora $}</option>
+            </select>
+          </fieldset>        
+        </div>
+
+      </div>
+      <button type="submit" class="btn btn-primary btn-lg btn-block">Update</button>
+    </div>
+  </form>
+</div>
 
 {% endblock maincontent %}
