@@ -61,6 +61,18 @@ def especialidad_medicos(request):
 	else:
 		return HttpResponse({'error':request})
 
+def citas_horas(request):
+	if request.method=='POST':
+		procedimientos=Procedimientos()
+		try:
+			citas_hora=procedimientos.Citas_ocupadas(request.POST['fecha'])
+		except Exception, e:
+			citas_hora={}
+		print citas_hora
+		return JsonResponse({'citas_hora':citas_hora})
+	else:
+		return HttpResponse({'error':request})
+
 
 def agenda_disp_medico(request,medico_id):
 	if request.method =="POST":
@@ -80,6 +92,12 @@ def listadoCitas(request):
 		paciente=Paciente.objects.get(usuario=request.user.id)
 		citas= Cita.objects.filter(paciente=paciente)
 		print citas
+		print paciente.id
+		procedimientos= Procedimientos()
+		try:
+			citas=procedimientos.Citas_paciente(paciente.id)
+		except Exception, e:
+			citas={}
 	except Cita.DoesNotExist:
 		citas = None
 	return render(request,'listado_citas.html',{'citas':citas})

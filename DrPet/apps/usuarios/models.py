@@ -66,3 +66,13 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
 		return self.nombre1 +' '+self.nombre2 +' '+self.apellido1 +' '+self.apellido2
 
 
+class Auditoria(models.Model):
+    """
+    Description: Model Auditoria
+    """
+    operacion = models.CharField(max_length=50)
+    fechahora = models.DateTimeField()
+    usuario = models.CharField(max_length=50)
+    
+
+

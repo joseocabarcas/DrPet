@@ -8,8 +8,8 @@
 
 
 		{% csrf_token %}
-		<input ng-model="medico_id" ng-init="medico_id={{medico_id}}" name="medico">
-		<input  ng-model="agenda_id" name="agenda">
+		<input hidden ng-model="medico_id" ng-init="medico_id={{medico_id}}" name="medico">
+		<input hidden ng-model="agenda_id" name="agenda">
 <!--
 		<div class="row">
 			<div class="col-xs-6">

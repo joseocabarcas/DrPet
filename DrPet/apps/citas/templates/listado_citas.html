@@ -14,11 +14,13 @@
   <div  class="col-md-4">
     <div class="card">
       <div class="card-header">
-       {{cita.dia}}
+       <strong>{{cita.dia}}</strong> {{cita.fecha}} 
      </div>
      <div class="card-block">
       <blockquote class="card-blockquote">
         <p><strong class="black-text" style="font-size:14px;">Hora de la cita:  </strong> {{cita.hora_cita}}</p>
+        <p><strong class="black-text" style="font-size:14px;">Especialidad:  </strong> {{cita.especialidad}}</p>
+        <p><strong class="black-text" style="font-size:14px;">Medico:  </strong> {{cita.nombre1}} {{cita.apellido1}}</p>
       </blockquote>
     </div>
   </div>

@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from .models import Usuario
 from apps.pacientes.models import Paciente
 from apps.medicos.models import Medico
+from apps.citas.models import Cita,Procedimientos
 from django.template import RequestContext, loader
 from django.contrib.auth import  logout
 from .functions import LogIn
@@ -24,7 +25,7 @@ def index(request):
 		else:
 			print "45"
 			return render(request,'login.html',{'login_form':login_form},context_instance=RequestContext(request))
-	if request.user.is_authenticated:
+	if request.user.is_authenticated():
 		if Paciente.objects.filter(usuario__id=request.user.id):
 			role = get_user_role(request.user)
 			print role
@@ -53,12 +54,23 @@ class DashboardView(TemplateView):
 
 @login_required(login_url='/')
 def home(request):
-	return render(request,'home.html')
+	try:
+		paciente=Paciente.objects.get(usuario=request.user.id)
+		citas_sin_asignar= Cita.objects.filter(paciente=paciente)
+		print citas_sin_asignar
+		print paciente.id
+		procedimientos= Procedimientos()
+		try:
+			citas_sin_asignar=procedimientos.Citas_paciente_sin_asignar(paciente.id)
+		except Exception, e:
+			citas_sin_asignar={}
+	except Cita.DoesNotExist:
+		citas_sin_asignar = None
+	return render(request,'home.html',{'citas':citas_sin_asignar})
 
 
 def inicio(request):
 	usuarios = Usuario.objects.filter().select_related()
-	print usuarios
 	return render(request,'inicio.html',{'usuarios':usuarios})
 
 

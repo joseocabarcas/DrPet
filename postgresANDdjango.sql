@@ -156,6 +156,87 @@ Tercer SP con excepciones
 
 
 
+/*
+CUARTO SP con excepciones
+*/
+DROP FUNCTION Citas_paciente(integer);
+CREATE OR REPLACE FUNCTION Citas_paciente(idpaciente integer)
+RETURNS SETOF RECORD
+AS $BODY$
+BEGIN
+    RETURN QUERY 
+    SELECT C.HORA_CITA,C.FECHA,AD.DIA,U.NOMBRE1,U.APELLIDO1 as nombrecompleto,E.NOMBRE
+    FROM citas_cita C INNER JOIN AGENDAS_AGENDA A ON C.agenda_id=A.ID
+    INNER JOIN AGENDAS_DIA AD ON A.dia_id=AD.ID
+    INNER JOIN medicos_medico M ON A.medico_id=M.ID
+    INNER JOIN usuarios_usuario U ON M.usuario_id=U.ID
+    INNER JOIN medicos_especialidad E ON M.especialidad_id=E.ID
+    WHERE C.paciente_id=idpaciente and C.ESTADO=1;
+    IF NOT FOUND THEN
+        RAISE EXCEPTION 'No se encontraron datos %.', $1;
+    END IF;
+END;
+$BODY$ 
+LANGUAGE plpgsql;
+select * from Citas_paciente(1) as t (HORA_CITA time,FECHA date,DIA varchar(50),nombre1 varchar(100),apellido1 varchar(100),especialidad varchar(50));
+/*
+CUARTO SP con excepciones
+*/
+
+
+
+/*
+QUINTO SP con excepciones
+*/
+DROP FUNCTION citas_ocupadas(date);
+CREATE OR REPLACE FUNCTION citas_ocupadas(fecha_sel date)
+RETURNS SETOF RECORD
+AS $BODY$
+BEGIN
+    RETURN QUERY 
+   select HORA_CITA from citas_cita c where c.FECHA=fecha_sel;
+    IF NOT FOUND THEN
+        RAISE EXCEPTION 'No se encontraron datos %.', $1;
+    END IF;
+END;
+$BODY$ 
+LANGUAGE plpgsql;
+select * from citas_ocupadas('16/10/2015') as t (HORA_CITA time);
+/*
+QUINTO SP con excepciones
+*/
+
+
+
+/*
+SEXTO SP con excepciones
+*/
+DROP FUNCTION Citas_paciente_sin_asignar(integer);
+CREATE OR REPLACE FUNCTION Citas_paciente_sin_asignar(idpaciente integer)
+RETURNS SETOF RECORD
+AS $BODY$
+BEGIN
+    RETURN QUERY 
+    SELECT C.HORA_CITA,C.FECHA,AD.DIA,U.NOMBRE1,U.APELLIDO1 as nombrecompleto,E.NOMBRE
+    FROM citas_cita C INNER JOIN AGENDAS_AGENDA A ON C.agenda_id=A.ID
+    INNER JOIN AGENDAS_DIA AD ON A.dia_id=AD.ID
+    INNER JOIN medicos_medico M ON A.medico_id=M.ID
+    INNER JOIN usuarios_usuario U ON M.usuario_id=U.ID
+    INNER JOIN medicos_especialidad E ON M.especialidad_id=E.ID
+    WHERE C.paciente_id=idpaciente and C.ESTADO=0;
+    IF NOT FOUND THEN
+        RAISE EXCEPTION 'No se encontraron datos %.', $1;
+    END IF;
+END;
+$BODY$ 
+LANGUAGE plpgsql;
+select * from Citas_paciente_sin_asignar(1) as t (HORA_CITA time,FECHA date,DIA varchar(50),nombre1 varchar(100),apellido1 varchar(100),especialidad varchar(50));
+/*
+SEXTO SP con excepciones
+*/
+
+
+
 
 
 
@@ -165,3 +246,6 @@ from django import forms
 
 class SettingsForm(forms.Form):
     delivery_time = forms.TimeField(widget=forms.TimeInput(format='%H:%M'))
+
+
+

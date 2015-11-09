@@ -10,6 +10,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "bootstrap": "v4.0.0-alpha"
+    "bootstrap": "v4.0.0-alpha",
+    "moment-duration-format": "~1.3.0"
   }
 }

@@ -53,4 +53,29 @@ class Procedimientos():
 		cursor.close()
 		print agenda
 		return agenda
+
+	def Citas_paciente(self,idpaciente):
+		cursor=connection.cursor()
+		cursor.execute("select * from Citas_paciente(%s) as t (HORA_CITA time,FECHA date,DIA varchar(50),nombre1 varchar(100),apellido1 varchar(100),especialidad varchar(50));",[idpaciente])
+		citas=dictfetchall(cursor)
+		cursor.close()
+		print citas
+		return citas
+
+
+	def Citas_paciente_sin_asignar(self,idpaciente):
+		cursor=connection.cursor()
+		cursor.execute("select * from Citas_paciente_sin_asignar(%s) as t (HORA_CITA time,FECHA date,DIA varchar(50),nombre1 varchar(100),apellido1 varchar(100),especialidad varchar(50));",[idpaciente])
+		citas=dictfetchall(cursor)
+		cursor.close()
+		print citas
+		return citas
+
+	def Citas_ocupadas(self,fecha):
+		cursor=connection.cursor()
+		cursor.execute("select * from citas_ocupadas(%s) as t (HORA_CITA time);",[fecha])
+		citas=dictfetchall(cursor)
+		cursor.close()
+		print citas
+		return citas
 	
