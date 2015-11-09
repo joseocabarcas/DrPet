@@ -83,7 +83,7 @@ def agenda_disp_medico(request,medico_id):
 		cita= Cita.objects.create(hora_cita=(request.POST['hora_cita']),fecha=request.POST['fecha'],
 			estado=0,agenda=agenda,paciente=paciente)
 		cita.save
-		return redirect('cita/listado')
+		return redirect('home')
 	else:
 		return render(request,'medico_agenda.html',{'medico_id':medico_id})
 
@@ -102,3 +102,9 @@ def listadoCitas(request):
 		citas = None
 	return render(request,'listado_citas.html',{'citas':citas})
 
+@csrf_exempt
+def aprobarCitas(request,cita_id):
+	cita= Cita.objects.get(pk=cita_id)
+	cita.estado=1
+	cita.save()
+	return JsonResponse({'mensaje':"Aprobada Exitosamente"},status=200)

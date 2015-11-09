@@ -4,6 +4,7 @@ urlpatterns = [
     
     url(r'^cita$', CitaView.as_view(),name='cita'),
     url(r'^cita/listado$','apps.citas.views.listadoCitas',name='cita/listado'),
+    url(r'^cita/aprobar/(?P<cita_id>\d+)$','apps.citas.views.aprobarCitas',name='cita/aprobar'),
     url(r'^cita/agenda-disp$', 'apps.citas.views.fecha_agenda_disp',name='cita/agenda-disp'),
     url(r'^cita/citas-hora$', 'apps.citas.views.citas_horas',name='cita/citas-hora'),
     url(r'^cita/agenda-disp-medico/(?P<medico_id>\d+)/$', 'apps.citas.views.agenda_disp_medico',name='cita/agenda-disp-medico'),

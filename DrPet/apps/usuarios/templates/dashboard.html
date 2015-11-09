@@ -5,6 +5,79 @@
 {% block maincontent %}
 
 
+<div class="row">
+
+
+  {% if citas%}
+<h2>Citas No Aprobadas</h2>
+  {% for cita in citas %}
+  <div  class="col-md-4" id="cita{{cita.id}}">
+    <div class="card">
+      <div class="card-header">
+       <strong>{{cita.dia}}</strong> {{cita.fecha}} 
+     </div>
+     <div class="card-block">
+      <blockquote class="card-blockquote">
+        <p><strong class="black-text" style="font-size:14px;">Hora de la cita:  </strong> {{cita.hora_cita}}</p>
+      </blockquote>
+	  </div>
+	  <div class="card-footer text-muted">
+	  	<a href="#" class="card-link"  onclick="Aprobar({{ cita.id }})"><i class="material-icons dp48">done_all</i>Aprobar</a>
+	  	<div style="display:none">
+	  	<input type="hidden" name="csrfmiddlewaretoken" id="csrfmiddlewaretoken" value="{{ csrf_token }">
+	  	</div>
+	  </div>
+  </div>
+</div>
+{% endfor %}
+
+{% else %}
+<h4>No hay Citas Sin Aprobar</h4>
+{% endif %}
+</div> 
+
+
+
+
+<script type="text/javascript">
+	function Aprobar (id) {
+	    		var row = $("#cita"+id);
+	    		var route= "cita/aprobar/"+id;
+	    		var token = $('#csrfmiddlewaretoken').val();
+
+				swal({   
+					title: 'Confirmar',   
+					text: 'Realmente Desea Aprobar esta cita?',  type: 'info',   
+					showCancelButton: true,   
+					confirmButtonColor: '#536DFE',   
+					confirmButtonText: 'Aprobar',   
+					cancelButtonText: 'Cancelar',   
+					closeOnConfirm: false}, 
+					function(){
+						$.ajax({
+			    			url:route,
+			    			headers:{'X-CSRFToken':token},
+			    			type:"PUT",
+			    			dataType:'json',
+			    			success: function(data){
+			    				console.log(data)
+			    				swal({   
+									title: 'Cita Aprobada',   
+									text: 'Operacion Exitosa',   
+									timer: 2000,   
+									type: 'success',
+									showConfirmButton: false 
+								});
+				    			row.fadeOut(2000);
+			    			},
+			    			error: function(data){
+			    				console.error(data)
+			    			}
+			    		})
+				});
+	    	}
+	</script>
+
 
 
 {% endblock maincontent %}

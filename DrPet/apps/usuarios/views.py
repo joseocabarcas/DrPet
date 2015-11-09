@@ -20,7 +20,7 @@ def index(request):
 		login_form=LoginForm(request.POST)
 		if login_form.is_valid():
 			LogIn(request,login_form.cleaned_data['username'],
-				login_form.cleaned_data['password'],login_form)
+				login_form.cleaned_data['password'])
 			
 		else:
 			print "45"
@@ -47,7 +47,8 @@ def Logout(request):
 class DashboardView(TemplateView):
 
 	def get(self,request):
-		return render(request,'dashboard.html')
+		citas= Cita.objects.filter(agenda__medico__usuario_id=request.user.id,estado=0)
+		return render(request,'dashboard.html',{'citas':citas})
 
 
 
