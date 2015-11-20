@@ -6,7 +6,7 @@
 
 <div class="row" ng-app="drpet" ng-controller="CtrlCitas">
 
-	<form class="col-md-12 col-md-offset-3" >
+	<form class="col-md-10 col-md-offset-1" >
 		{% csrf_token %}
 		<h3>Buscar Medico</h3>
 		<div class="row">
@@ -17,7 +17,7 @@
 					{% endfor %}
 				</select>
 			</div>
-		</div>
+		</div><br>
 
 		<div class="row">
 			<div  class="col-md-4" ng-repeat="medico in Medicos">

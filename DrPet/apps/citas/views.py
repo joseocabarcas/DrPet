@@ -7,9 +7,12 @@ from apps.medicos.models import Especialidad,Medico
 from apps.usuarios.models import Usuario
 from apps.pacientes.models import Paciente
 from .models import Cita,Procedimientos
-import json 
+import json
+from .forms import SeguimientoForm
 from django.views.decorators.csrf import csrf_exempt,csrf_protect
 from django.core import serializers
+from django.utils.timezone import now
+
 # Create your views here.
 class CitaView(TemplateView):
 
@@ -85,7 +88,7 @@ def agenda_disp_medico(request,medico_id):
 		cita.save
 		return redirect('home')
 	else:
-		return render(request,'medico_agenda.html',{'medico_id':medico_id})
+		return render(request,'medico_agenda.html',{'time':now(),'medico_id':medico_id})
 
 def listadoCitas(request):
 	try:
@@ -108,3 +111,86 @@ def aprobarCitas(request,cita_id):
 	cita.estado=1
 	cita.save()
 	return JsonResponse({'mensaje':"Aprobada Exitosamente"},status=200)
+
+
+@csrf_exempt
+def cancelarCitas(request,cita_id):
+	cita= Cita.objects.get(pk=cita_id)
+	cita.delete()
+	return JsonResponse({'mensaje':"Cancelada Exitosamente"},status=200)
+
+
+def pendientes(request):
+	paciente=Paciente.objects.get(usuario=request.user.id)
+	procedimientos= Procedimientos()
+	try:
+		print paciente.id
+		citas=procedimientos.Citas_paciente_pendientes(paciente.id)
+	except Exception, e:
+		print e
+		citas={}
+	return render(request,'pendientes.html',{'citas':citas})
+
+
+def historial_medico(request):
+	try:
+		medico=Medico.objects.get(usuario=request.user.id)
+		procedimientos= Procedimientos()
+		try:
+			citas=procedimientos.Citas_historial_medico(medico.id)
+		except Exception, e:
+			citas={}
+	except Cita.DoesNotExist:
+		citas = None
+	return render(request,'historial_medico.html',{'citas':citas})
+
+def buscar(request):
+	return render(request,'buscar.html')
+
+
+def pacientes(request):
+	try:
+		# usuario=Usuario.objects.get(identificacion=request.POST['identificacion'])
+		# paciente=Paciente.objects.get(usuario=usuario)
+
+		medico=Medico.objects.get(usuario=request.user.id)
+		procedimientos= Procedimientos()
+		try:
+			citas=procedimientos.Citas_listado_paciente(medico.id,request.POST['identificacion'])
+			return JsonResponse({'citas':citas})
+		except Exception, e:
+			citas={}
+			print e
+	except Usuario.DoesNotExist:
+		citas = None
+	return JsonResponse({'error':citas},status=500)
+
+
+def seguimiento(request,cita_id):
+	seguimientoform =SeguimientoForm()
+	if request.method =="POST":
+		seguimientoform=SeguimientoForm(request.POST)
+		if seguimientoform.is_valid():
+			seguimiento = seguimientoform.save(commit=False)
+			cita = get_object_or_404(Cita, pk=cita_id)
+
+			seguimiento.cita =cita
+			seguimiento.save()
+
+			cita.estado=2
+			cita.save()
+
+			return redirect('dashboard')
+	return render(request,'seguimiento.html',{'seguimientoform':seguimientoform})
+
+def pendientes_medico(request):
+	medico=Medico.objects.get(usuario=request.user.id)
+	procedimientos= Procedimientos()
+	try:
+		print medico.id
+		citas=procedimientos.Citas_medico_pendientes(medico.id)
+		print citas
+	except Exception, e:
+		print e
+		citas={}
+	return render(request,'pendientes-medico.html',{'citas':citas})

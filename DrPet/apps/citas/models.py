@@ -78,4 +78,37 @@ class Procedimientos():
 		cursor.close()
 		print citas
 		return citas
+
+	def Citas_paciente_pendientes(self,idpaciente):
+		cursor=connection.cursor()
+		cursor.execute("select * from Citas_paciente_pendientes(%s) as t (ID integer,HORA_CITA time,FECHA date,DIA varchar(50),nombre1 varchar(100),apellido1 varchar(100),especialidad varchar(50));",[idpaciente])
+		citas=dictfetchall(cursor)
+		cursor.close()
+		print citas
+		return citas
+
+
+	def Citas_historial_medico(self,idmedico):
+		cursor=connection.cursor()
+		cursor.execute("select * from Citas_historial_medico(%s) as t (HORA_CITA time,FECHA date,DIA varchar(50),nombre1 varchar(100),apellido1 varchar(100),identificacion varchar(20));",[idmedico])
+		citas=dictfetchall(cursor)
+		cursor.close()
+		print citas
+		return citas
+
+	def Citas_listado_paciente(self,idmedico,identificacion):
+		cursor=connection.cursor()
+		cursor.execute("select * from Citas_listado_paciente(%s,%s) as t (ID integer,HORA_CITA time,FECHA date,DIA varchar(50),nombre1 varchar(100),apellido1 varchar(100),identificacion varchar(20));",[idmedico,identificacion])
+		citas=dictfetchall(cursor)
+		cursor.close()
+		print citas
+		return citas
+
+	def Citas_medico_pendientes(self,idmedico):
+		cursor=connection.cursor()
+		cursor.execute("select * from Citas_medico_pendientes(%s) as t (ID integer,HORA_CITA time,FECHA date,DIA varchar(50),nombre1 varchar(100),apellido1 varchar(100),identificacion varchar(20));",[idmedico])
+		citas=dictfetchall(cursor)
+		cursor.close()
+		print citas
+		return citas
 	

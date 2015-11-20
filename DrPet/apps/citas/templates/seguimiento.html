@@ -1,0 +1,53 @@
+{% extends "master.html" %}
+
+{% load static %}
+
+{% block maincontent %}
+
+
+
+<div class="row" >
+  <form class="col-md-8 col-md-offset-2" method="POST"  action="">
+    {% csrf_token %}
+    <div class="card">
+      <div class="card-header">
+      Guardar Seguimiento
+      </div>
+      <div class="card-block">
+        <div class="col-xs-6">
+          <fieldset class="form-group">
+            <label for="first_name">Titulo</label>
+            {{seguimientoform.titulo}}
+            {{seguimientoform.titulo.errors}}
+          </fieldset>
+        </div>
+
+
+        <div class="col-xs-6">
+          <fieldset class="form-group">
+            <label for="first_name">Descripción</label>
+            {{seguimientoform.descripcion}}
+            {{seguimientoform.descripcion.errors}}
+          </fieldset>
+        </div>
+
+
+        <div class="col-xs-6">
+          <fieldset class="form-group">
+            <label for="first_name">Observaciones</label>
+            {{seguimientoform.observaciones}}
+            {{seguimientoform.observaciones.errors}}
+          </fieldset>
+        </div>
+        
+
+
+
+
+      </div>
+      <button type="submit" class="btn btn-primary btn-lg btn-block">Save</button>
+    </div>
+  </form>
+</div>
+
+{% endblock maincontent %}

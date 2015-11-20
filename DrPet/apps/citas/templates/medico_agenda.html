@@ -40,7 +40,7 @@
 					<div class="col-xs-6">
 				<fieldset class="form-group">
 					<label for="id_fecha">Fecha</label>
-					<input type="date" ng-model="id_fecha" class="form-control" name="fecha">
+					<input type="date" ng-model="id_fecha" class="form-control" name="fecha" min="{{time|date:'Y-m-d' }}">
 				</fieldset>
 			</div>
 				</fieldset>
@@ -54,6 +54,8 @@
 			</div>
 				</fieldset>
 			</div>
+
+			<h3 ng-show="err_not_found">No tiene citas para este dia</h3>
 
 			<button class="btn btn-primary btn-lg btn-block" >Guardar</button>
 		</form>

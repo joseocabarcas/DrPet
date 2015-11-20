@@ -1,4 +1,4 @@
-var miAplicacion = angular.module('drpet',[]);
+var miAplicacion = angular.module('drpet',['chart.js']);
 
 
 miAplicacion.config(function($httpProvider,$interpolateProvider) {
@@ -50,9 +50,97 @@ miAplicacion.controller('CtrlCitas', ['$scope', '$http', function($scope, $http)
 }])
 
 
+miAplicacion.controller('CtrlMedicos',['$scope','$http',function($scope,$http){
+$scope.error=false;
+  $scope.Buscar_pacientes = function (){
+
+    var datos = {
+      identificacion:$scope.id_identificacion
+    }
+
+    $http.post('pacientes',datos)
+    .then(function successCallback(response) {
+      console.log(response.data)
+      $scope.citas = response.data
+
+    }, function errorCallback(response) {
+      console.log(response)
+      $scope.error=true;
+    });
+
+  }
+
+
+}])
+
+
+
+miAplicacion.controller('CtrlAuditorias',['$scope','$http',function($scope,$http){
+$scope.labels = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+    $scope.series = ['Citas Grabadas', 'Citas Canceladas'];
+    $scope.legend = true;
+    /*$scope.colours = [{fillColor: ["#5a72ff","#ffdb00","#219d55"],
+     strokeColor: ["#5a72ff","#ffdb00","#219d55"],
+     highlightFill: ["#5a72ff","#ffdb00","#219d55"],
+     highlightStroke: ["#5a72ff","#ffdb00","#219d55"]}];*/
+
+    $scope.data = [
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    ];
+
+
+   
+
+    $http({
+      method: 'GET',
+      url: '../reporte-ajax/'
+    }).then(function successCallback(response) {
+
+      console.log(response.data.auditorias[0])
+      console.log(response.data.auditorias[1])
+
+      var fechacancelada =response.data.auditorias[0].fecha;
+      var fechapedida =response.data.auditorias[1].fecha;
+
+      var cantidadcancelada =response.data.auditorias[0].total_operaciones;
+      var cantidadpedida =response.data.auditorias[1].total_operaciones;
+
+      $scope.data[0].splice(fechacancelada-1, 1,cantidadcancelada )
+
+      $scope.data[1].splice(fechapedida-1, 1,cantidadpedida )
+    /*
+    var grabadas =response.grabadas;
+    var consultadas =response.consultadas;
+
+    angular.forEach(grabadas, function (grabada) {
+      $scope.data[1].splice(grabada.mes-1, 1,grabada.cantidad )
+                //Otra forma
+                //$scope.datos[1][grabada.mes-1]=grabada.cantidad;
+              });
+    angular.forEach(consultadas, function (consultada) {
+      $scope.data[0].splice(consultada.mes-1, 1,consultada.cantidad )
+                //Otra forma
+                //$scope.datos[0][consultada.mes-1]=consultada.cantidad;
+              });
+*/
+
+  }, function errorCallback(response) {
+    // called asynchronously if an error occurs
+    // or server returns response with an error status.
+  });
+
+   
+
+
+
+}])
+
+
 
 miAplicacion.controller('CtrlCitasMedcio', ['$scope', '$http', function($scope, $http){
 
+$scope.err_not_found= false;
 
 
   $scope.$watch('id_fecha',function(data){
@@ -79,6 +167,15 @@ miAplicacion.controller('CtrlCitasMedcio', ['$scope', '$http', function($scope, 
 
   $http.post('../../agenda-disp',datas)
   .success(function(data){
+
+    console.info(data);
+
+    if (!data.agenda[0]) {
+      console.error("yo");
+      $scope.err_not_found= true;
+    }else{
+       $scope.err_not_found= false;
+    }
     $scope.total=[]
 
     $scope.agenda_id=data.agenda[0].id;
@@ -110,7 +207,7 @@ if (frecuencia<60) {
 
     $scope.total.push(inicio);
 
-    while(comienzo<=fin){
+    while(comienzo<fin){
       $scope.total.push(comienzo);
       //comienzo=moment(comienzo,'HH:mm').add(frecuencia, 'minutes').format('HH:mm');
       //comienzo=moment(comienzo,'HH:mm').add(frecuencia,'HH:mm').format('HH:mm') ;
@@ -126,7 +223,6 @@ if (frecuencia<60) {
     }
 
 
-/*
     var fecha= {
       fecha:moment(my_data).format('YYYY-MM-DD')
     }
@@ -169,8 +265,6 @@ if (frecuencia<60) {
     })
 
 
-
-*/
 
 
   })

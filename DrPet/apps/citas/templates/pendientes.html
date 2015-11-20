@@ -1,0 +1,88 @@
+
+{% extends "master.html" %}
+
+{% load static %}
+
+{% block maincontent %}
+
+
+
+<div class="row">
+  {% if citas%}
+
+<h2>Citas Pendientes</h2>
+  {% for cita in citas %}
+  <div  class="col-md-4" id="cita{{cita.id}}">
+    <div class="card">
+      <div class="card-header">
+       <strong>{{cita.dia}}</strong> {{cita.fecha}} 
+     </div>
+     <div class="card-block">
+      <blockquote class="card-blockquote">
+        <p><strong class="black-text" style="font-size:14px;">Hora de la cita:  </strong> {{cita.hora_cita}}</p>
+        <p><strong class="black-text" style="font-size:14px;">Especialidad:  </strong> {{cita.especialidad}}</p>
+        <p><strong class="black-text" style="font-size:14px;">Medico:  </strong> {{cita.nombre1}} {{cita.apellido1}}</p>
+      </blockquote>
+    </div>
+    <div class="card-footer text-muted">
+      <a href="#" class="card-link"  onclick="cancelar({{ cita.id }})"><i class="material-icons dp48">report_problem</i>Cancelar</a>
+      <div style="display:none">
+      <input type="hidden" name="csrfmiddlewaretoken" id="csrfmiddlewaretoken" value="{{ csrf_token }">
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+{% else %}
+<h4>No hay Citas Pendientes</h4>
+{% endif %}
+</div> 
+
+
+
+
+
+
+<script type="text/javascript">
+  function cancelar (id) {
+          var row = $("#cita"+id);
+          var route= "../cita/cancelar/"+id;
+          var token = $('#csrfmiddlewaretoken').val();
+
+        swal({   
+          title: 'Confirmar',   
+          text: 'Realmente Desea cancelar esta cita?',  type: 'info',   
+          showCancelButton: true,   
+          confirmButtonColor: '#536DFE',   
+          confirmButtonText: 'Ok',   
+          cancelButtonText: 'Cancelar',   
+          closeOnConfirm: false}, 
+          function(){
+            $.ajax({
+                url:route,
+                headers:{'X-CSRFToken':token},
+                type:"PUT",
+                dataType:'json',
+                success: function(data){
+                  console.log(data)
+                  swal({   
+                  title: 'Cita Canelada',   
+                  text: 'Operacion Exitosa',   
+                  timer: 2000,   
+                  type: 'success',
+                  showConfirmButton: false 
+                });
+                  row.fadeOut(2000);
+                },
+                error: function(data){
+                  console.error(data)
+                }
+              })
+        });
+        }
+  </script>
+
+
+
+{% endblock maincontent %}

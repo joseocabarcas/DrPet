@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
-
+from django.db import connection
+from apps.agendas.functions import dictfetchall
 
 # Create your models here.
 
@@ -71,8 +72,20 @@ class Auditoria(models.Model):
     Description: Model Auditoria
     """
     operacion = models.CharField(max_length=50)
-    fechahora = models.DateTimeField()
+    fechahora = models.DateField()
     usuario = models.CharField(max_length=50)
+
+
+
+class Procedimientos():
+
+	def Auditorias_total(self):
+		cursor = connection.cursor()
+		cursor.execute("select * from Auditorias_total() as t (total_operaciones bigint,operacion varchar(50),fecha float);")
+		auditorias=dictfetchall(cursor)
+		cursor.close()
+		#print auditorias
+		return auditorias
     
 
 

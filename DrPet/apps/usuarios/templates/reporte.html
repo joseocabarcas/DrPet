@@ -1,0 +1,37 @@
+
+
+{% extends "admin/base_site.html" %}
+
+ 
+
+{% load static %}
+
+
+{% block extrastyle %}
+  <link rel="stylesheet" href="{% static 'bower_components/angular-chart.js/dist/angular-chart.css' %}">
+{% endblock %}
+
+{% block extrajs %}
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.js"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
+  <script src="{% static 'bower_components/moment-duration-format/lib/moment-duration-format.js' %}"></script>
+  <script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'node_modules/angular/angular.min.js' %}"></script>
+  <script src="{% static 'bower_components/angular-chart.js/dist/angular-chart.js' %}"></script>
+  <script src="{% static 'node_modules/ng-slider/dist/ng-slider.min.js' %}"></script>
+  <script src="{% static 'js/app.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+
+<div id="content-main" ng-app="drpet" ng-controller="CtrlAuditorias">
+  <h1>Auditorias</h1>
+
+  <canvas id="bar" class="chart chart-bar" chart-data="data" chart-labels="labels" chart-legend="true" chart-series="series" chart-click="onClick" chart-colours="colours"></canvas>
+  
+  {% for auditoria in auditorias %}
+   
+  {% endfor %}
+</div>
+{% endblock %}

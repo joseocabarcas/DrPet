@@ -87,5 +87,20 @@ class UsuarioAdmin(UserAdmin):
 		)
 
 
+from django.conf.urls import patterns
+
+class AuditoriaAdmin(admin.ModelAdmin):
+	def get_urls(self):
+		urls = super(AuditoriaAdmin, self).get_urls()
+		my_urls = patterns('',(r'^admin/auditoria/reporte/$', self.my_view))
+		return my_urls + urls
+
+
+	def my_view(self, request):
+		#custom view which should return an HttpResponse
+		return render_to_response("reporte.html",{},RequestContext(request, {}),)
+
+
+
 admin.site.register(Usuario, UsuarioAdmin)
-admin.site.register(Auditoria)
+admin.site.register(Auditoria,AuditoriaAdmin)

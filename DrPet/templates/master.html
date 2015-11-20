@@ -17,6 +17,8 @@
 
   <script src="{% static 'bower_components/sweetalert/dist/sweetalert.min.js' %}"></script>
 
+  <link rel="stylesheet" href="{% static 'bower_components/angular-chart.js/dist/angular-chart.css' %}">
+
 
 </head>
 <body>
@@ -50,6 +52,14 @@
             <a class="dropdown-item" href="{% url 'agenda' %}">Registrar</a>
           </div>
         </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Citas</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="{% url 'cita/historial-medico' %}">Historial</a>
+            <a class="dropdown-item" href="{% url 'cita/buscar' %}">Citas</a>
+            <a class="dropdown-item" href="{% url 'cita/pendientes-medico' %}">Pendientes</a>
+          </div>
+        </li>
         {% endif %}
         {% if user|can:'pacientes' %}
         <li class="nav-item dropdown">
@@ -57,6 +67,7 @@
           <div class="dropdown-menu">
             <a class="dropdown-item" href="{% url 'cita/listado' %}">Historial</a>
             <a class="dropdown-item" href="{% url 'cita' %}">Registrar</a>
+            <a class="dropdown-item" href="{% url 'cita/pendientes' %}">Pendientes</a>
           </div>
         </li>
         {% endif %}
@@ -93,9 +104,16 @@
   <script src="{% static 'bower_components/moment-duration-format/lib/moment-duration-format.js' %}"></script>
   <script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
   <script src="{% static 'node_modules/angular/angular.min.js' %}"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.js"></script>
+  <script src="{% static 'bower_components/angular-chart.js/dist/angular-chart.js' %}"></script>
   <script src="{% static 'node_modules/ng-slider/dist/ng-slider.min.js' %}"></script>
   <script src="{% static 'js/app.js' %}"></script>
 
+  <script >
+    $(document).ready(function() {
+      $(".dropdown-toggle").dropdown();
+    });
+  </script>
 
 </body>
 </html>

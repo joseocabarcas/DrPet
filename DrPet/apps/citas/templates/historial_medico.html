@@ -10,7 +10,7 @@
 <div class="row">
   {% if citas%}
 
-<h2>Historial de Citas</h2>
+<h2>Historial de Citas Medicas</h2>
   {% for cita in citas %}
   <div  class="col-md-4">
     <div class="card">
@@ -20,8 +20,8 @@
      <div class="card-block">
       <blockquote class="card-blockquote">
         <p><strong class="black-text" style="font-size:14px;">Hora de la cita:  </strong> {{cita.hora_cita}}</p>
-        <p><strong class="black-text" style="font-size:14px;">Especialidad:  </strong> {{cita.especialidad}}</p>
-        <p><strong class="black-text" style="font-size:14px;">Medico:  </strong> {{cita.nombre1}} {{cita.apellido1}}</p>
+        <p><strong class="black-text" style="font-size:14px;">Paciente:  </strong> {{cita.nombre1}}  {{cita.apellido1}}</p>
+        <p><strong class="black-text" style="font-size:14px;">Identificación:  </strong> {{cita.identificacion}}</p>
       </blockquote>
     </div>
   </div>
